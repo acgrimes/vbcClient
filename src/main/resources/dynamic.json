@@ -24,27 +24,23 @@
     ]
   },
   {
-    "name" : "com.dd.vbc.netty.EchoClientHandler",
+    "name" : "com.dd.vbc.network.VBCMobileClientHandler",
     "methods" : [
       {
-        "name": "userEventTriggered",
-        "parameterTypes" : ["io.netty.channel.ChannelHandlerContext", "java.lang.Object"]
+        "name": "<init>",
+        "parameterTypes" : ["com.dd.vbc.provider.Provider"]
       },
       {
         "name": "exceptionCaught",
         "parameterTypes" : ["io.netty.channel.ChannelHandlerContext", "java.lang.Throwable"]
       },
       {
-        "name": "channelWritabilityChanged",
+        "name": "channelActive",
         "parameterTypes" : ["io.netty.channel.ChannelHandlerContext"]
       },
       {
-        "name": "channelReadComplete",
-        "parameterTypes" : ["io.netty.channel.ChannelHandlerContext"]
-      },
-      {
-        "name": "channelRead",
-        "parameterTypes" : ["io.netty.channel.ChannelHandlerContext", "java.lang.Object"]
+        "name": "channelRead0",
+        "parameterTypes" : ["io.netty.channel.ChannelHandlerContext", "io.netty.buffer.ByteBuf"]
       }
     ]
   }
