@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.dd.vbc</groupId>
-    <artifactId>client</artifactId>
+    <artifactId>vbcClient</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <name>vbcClient</name>
@@ -87,18 +87,12 @@
             <version>${junit.platform.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.graalvm.nativeimage</groupId>
-            <artifactId>svm</artifactId>
-            <version>20.1.0</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <repositories>
         <repository>
             <id>Maven</id>
-            <url>https://https://mvnrepository.com/</url>
+            <url>https://mvnrepository.com/</url>
         </repository>
         <repository>
             <id>Gluon</id>
@@ -146,7 +140,7 @@
                         <nativeImageArg>-H:EnableURLProtocols=http,https</nativeImageArg>
                         <nativeImageArg>-H:+ReportUnsupportedElementsAtRuntime</nativeImageArg>
                         <nativeImageArg>-H:IncludeResourceBundles=com.dd.vbc.json.messages</nativeImageArg>
-                        <nativeImageArg>-H:ReflectionConfigurationFiles=/home/linuxlp/vbcProjects/javafx/vbc/client/src/main/resources/dynamic.json</nativeImageArg>
+                        <nativeImageArg>-H:ReflectionConfigurationFiles=/Users/achrisgrimes/vbcProjects/vbcClient/src/main/resources/dynamic.json</nativeImageArg>
                         <nativeImageArg>--initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslContext</nativeImageArg>
                         <nativeImageArg>--initialize-at-run-time=io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator</nativeImageArg>
                         <nativeImageArg>--initialize-at-run-time=io.netty.handler.ssl.ReferenceCountedOpenSslEngine</nativeImageArg>
