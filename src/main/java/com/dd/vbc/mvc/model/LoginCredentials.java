@@ -1,9 +1,12 @@
 package com.dd.vbc.mvc.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 
-public class LoginCredentials extends Serialization {
+public class LoginCredentials extends Serialization implements Serializable {
+
+    private static final long serialVersionUID = 5673732176670753862L;
     private String username;
     private String password;
 

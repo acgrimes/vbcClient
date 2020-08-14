@@ -1,39 +1,45 @@
 package com.dd.vbc.presenter;
 
 import com.dd.vbc.mvc.controller.BallotController;
+import com.dd.vbc.mvc.model.BallotBean;
 import com.dd.vbc.mvc.model.FxmlBallot;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 public class BallotPresenter implements Runnable {
 
-    private FxmlBallot fxmlBallot;
-    private BallotController ballotController;
-    private Stage primaryStage;
+    private final List<BallotBean> ballotBeanList;
+    private final BallotController ballotController;
+    private final Stage primaryStage;
 
-    public BallotPresenter(Stage primaryStage, FxmlBallot fxmlBallot, BallotController ballotController) {
+    public BallotPresenter(Stage primaryStage, List<BallotBean> ballotBeanList, BallotController ballotController) {
         this.primaryStage = primaryStage;
-        this.fxmlBallot = fxmlBallot;
+        this.ballotBeanList = ballotBeanList;
         this.ballotController = ballotController;
     }
 
     public void run() {
         try {
-            Stage theStage = new Stage();
-            theStage.setTitle("Ballot");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setController(this);
-            GridPane gridPane = fxmlLoader.load(new ByteArrayInputStream(fxmlBallot.getFile()));
-//            theStage.setScene(ballotController.buildScene(gridPane));
-            theStage.show();
+            System.out.println("BallotPresenter.run(List<BallotBean>)");
+            Scene ballotScene = ballotController.buildScene(ballotBeanList);
 
-            primaryStage.close();
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
+            URL cssURL = Presenter.class.getResource("styles.css");
+            String styleSheet = cssURL.toExternalForm();
+            ballotScene.getStylesheets().add(styleSheet);
+
+            primaryStage.setScene(ballotScene);
+            primaryStage.setTitle("Ballot");
+            primaryStage.show();
+
+        } catch(Exception ex) {
+            ex.printStackTrace();
         }
     }
 

@@ -5,6 +5,7 @@ import com.dd.vbc.network.ElectionRequest;
 import com.dd.vbc.network.ElectionResponse;
 import com.dd.vbc.network.NettyMessage;
 
+import java.io.IOException;
 import java.util.UUID;
 
 public class Model {
@@ -35,7 +36,7 @@ public class Model {
 
         ElectionRequest electionRequest = new ElectionRequest();
         electionRequest.setRequest(Request.BallotRequest);
-        Voter voter = new Voter(123456789L, UUID.randomUUID(), null);
+        voter = new Voter(123456789L, UUID.randomUUID(), null);
         electionRequest.setVoter(voter);
         NettyMessage.setMessage(electionRequest.serialize());
 

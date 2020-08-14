@@ -1,11 +1,13 @@
 package com.dd.vbc.mvc.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Voter extends Serialization {
+public class Voter extends Serialization implements Serializable {
 
+    private static final long serialVersionUID = 1706030007465952279L;
     private Long id;    // voter id, provided by voting agency
     private UUID vtoken;    // token defining this particular ballot
     private VotingDistrict districts;   // defines which ballot voter gets, this is only used by the server

@@ -1,12 +1,14 @@
 package com.dd.vbc.mvc.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Ballot extends Serialization {
+public class Ballot extends Serialization implements Serializable {
 
+    private static final long serialVersionUID = -6919637677219192555L;
     private UUID vToken;
     private Map<String, String> officeCandidate;
     private Map<String, String> questionAnswer;

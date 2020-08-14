@@ -1,9 +1,14 @@
 package com.dd.vbc.mvc.model;
 
+import com.dd.vbc.utils.SerialUtil;
+
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class VotingDistrict {
+public class VotingDistrict implements Serializable {
 
+    private static final long serialVersionUID = -8479474212770412896L;
     private int congress;
     private int stSenate;
     private int stHouse;
@@ -83,5 +88,9 @@ public class VotingDistrict {
                 ", munib=" + munib +
                 ", ward=" + ward +
                 '}';
+    }
+
+    public byte[] serialize() throws IOException {
+        return SerialUtil.objectToByteArray(this);
     }
 }

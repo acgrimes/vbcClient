@@ -1,11 +1,13 @@
 package com.dd.vbc.mvc.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
 
-public class Election extends Serialization {
+public class Election extends Serialization implements Serializable {
 
+    private static final long serialVersionUID = -3740370420901713205L;
     private Date electionDate;
     private String description;
 

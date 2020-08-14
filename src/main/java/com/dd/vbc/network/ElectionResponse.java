@@ -41,7 +41,7 @@ public class ElectionResponse extends Serialization implements Serializable {
         this.ballotBeanList = ballotBeanList;
     }
 
-    public byte[] serialize0() {
+    public byte[] serialize() {
 
         byte[] bytes = null;
         switch(response) {
@@ -50,6 +50,7 @@ public class ElectionResponse extends Serialization implements Serializable {
                     break;
             }
             case Ballot: {
+                byte[] enumBytes = response.serialize();
                 List<byte[]> ballotBeanListBytes = ballotBeanList.stream().
                         map(ballotBean -> {
                             byte[] ballotBeanBytes = ballotBean.serialize();
@@ -57,14 +58,15 @@ public class ElectionResponse extends Serialization implements Serializable {
                             byte[] byteLengthConcat = concatenateBytes(ballotBeanByteLength, ballotBeanBytes);
                             return byteLengthConcat;
                         }).collect(Collectors.toList());
-                bytes = concatenateBytes(ballotBeanListBytes.toArray(new byte[ballotBeanListBytes.size()][]));
+                byte[] listBytes = concatenateBytes(ballotBeanListBytes.toArray(new byte[ballotBeanListBytes.size()][]));
+                bytes = concatenateBytes(enumBytes, listBytes);
                 break;
             }
         }
         return bytes;
     }
 
-    public void deserialize0(byte[] bytes) {
+    public void deserialize(byte[] bytes) {
         int index=0;
         response = Response.fromOrdinal(deserializeInt(Arrays.copyOfRange(bytes, 0, index=index+4)));
         switch(response) {
@@ -73,40 +75,17 @@ public class ElectionResponse extends Serialization implements Serializable {
                 break;
             }
             case Ballot: {
-                List<String> ballotBeanList = new ArrayList<>();
+                List<BallotBean> ballotBeanList = new ArrayList<>();
                 while(index<bytes.length) {
                     int ballotBeanLength = deserializeInt(Arrays.copyOfRange(bytes, index, index=index+4));
-                    String ballotBean = deserializeString(Arrays.copyOfRange(bytes, index, index=index+ballotBeanLength));
+                    BallotBean ballotBean = new BallotBean();
+                    ballotBean.deserialize(Arrays.copyOfRange(bytes, index, index=index+ballotBeanLength));
                     ballotBeanList.add(ballotBean);
                 }
+                this.ballotBeanList = ballotBeanList;
                 break;
             }
         }
-    }
-
-    public static byte[] serialize(ElectionResponse electionResponse) {
-
-        byte[] result = null;
-        try(final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            final ObjectOutput out = new ObjectOutputStream(bos);) {
-                out.writeObject(electionResponse);
-                result = bos.toByteArray();
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return result;
-    }
-
-    public static ElectionResponse deserialize(byte[] objectStream) {
-
-        ElectionResponse electionResponse = null;
-        try(ByteArrayInputStream bis = new ByteArrayInputStream(objectStream);
-            ObjectInput in = new ObjectInputStream(bis)) {
-            electionResponse = (ElectionResponse) in.readObject();;
-        } catch(IOException | ClassNotFoundException ioe) {
-            ioe.printStackTrace();
-        }
-        return electionResponse;
     }
 
     private static Response setResponse(byte[] message) {

@@ -2,6 +2,9 @@ package com.dd.vbc.utils;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.util.*;
@@ -100,4 +103,13 @@ public class SerialUtil {
         return theMap;
     }
 
+    public final static byte[] objectToByteArray(Object anObject) throws IOException {
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(anObject);
+        oos.flush();
+        return bos.toByteArray();
+
+    }
 }

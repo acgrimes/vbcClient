@@ -2,11 +2,12 @@ package com.dd.vbc.enums;
 
 import com.dd.vbc.mvc.model.Serialization;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum BallotItemType {
+public enum BallotItemType implements Serializable {
 
     OFFICE,
     QUESTION,

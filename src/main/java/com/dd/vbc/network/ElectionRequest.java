@@ -38,7 +38,7 @@ public class ElectionRequest extends Serialization implements Serializable {
         this.voter = voter;
     }
 
-    public byte[] serialize0() {
+    public byte[] serialize() {
 
         byte[] bytes = null;
         switch(request) {
@@ -58,7 +58,7 @@ public class ElectionRequest extends Serialization implements Serializable {
         return bytes;
     }
 
-    public void deserialize0(byte[] byteRequest) {
+    public void deserialize(byte[] byteRequest) {
 
         request = Request.fromOrdinal(deserializeInt(Arrays.copyOfRange(byteRequest, 0, 4)));
         switch(request) {
@@ -74,30 +74,4 @@ public class ElectionRequest extends Serialization implements Serializable {
             }
         }
     }
-
-    public static byte[] serialize(ElectionRequest electionRequest) {
-
-        byte[] result = null;
-        try(final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            final ObjectOutput out = new ObjectOutputStream(bos);) {
-            out.writeObject(electionRequest);
-            result = bos.toByteArray();
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return result;
-    }
-
-    public static ElectionRequest deserialize(byte[] objectStream) {
-
-        ElectionRequest electionRequest = null;
-        try(ByteArrayInputStream bis = new ByteArrayInputStream(objectStream);
-            ObjectInput in = new ObjectInputStream(bis)) {
-            electionRequest = (ElectionRequest) in.readObject();;
-        } catch(IOException | ClassNotFoundException ioe) {
-            ioe.printStackTrace();
-        }
-        return electionRequest;
-    }
-
 }

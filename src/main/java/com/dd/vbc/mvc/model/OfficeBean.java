@@ -4,13 +4,15 @@ import com.dd.vbc.enums.BallotItemType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OfficeBean extends Serialization {
+public class OfficeBean extends Serialization implements Serializable {
 
+    private static final long serialVersionUID = 1361547055992820763L;
     private BallotItemType ballotItemType;
 
     /*
@@ -21,6 +23,7 @@ public class OfficeBean extends Serialization {
     private String description;
     private List<String> candidates;
 
+    public OfficeBean() {}
     public OfficeBean(BallotItemType ballotItemType, String office, String description, List<String> candidates) {
         this.ballotItemType = ballotItemType;
         this.office = office;
@@ -75,6 +78,7 @@ public class OfficeBean extends Serialization {
             String candidate = deserializeString(Arrays.copyOfRange(bytes, index, index=index+candidateLength));
             candidates.add(candidate);
         }
+        this.candidates = candidates;
     }
 
     @Override

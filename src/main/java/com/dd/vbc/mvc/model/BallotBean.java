@@ -3,17 +3,20 @@ package com.dd.vbc.mvc.model;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BallotBean extends Serialization {
+public class BallotBean extends Serialization implements Serializable {
 
+    private static final long serialVersionUID = 8138630345352550141L;
     private String title;
     private String description;
     private List<OfficeBean> officeBeanList;
 
+    public BallotBean() {}
     public BallotBean(String title, String description, List<OfficeBean> officeBeanList) {
         this.title = title;
         this.description = description;
@@ -57,13 +60,14 @@ public class BallotBean extends Serialization {
         title = deserializeString(Arrays.copyOfRange(bytes, index, index=index+titleLength));
         int descriptionLength = deserializeInt(Arrays.copyOfRange(bytes, index, index=index+4));
         description = deserializeString(Arrays.copyOfRange(bytes, index, index=index+descriptionLength));
-        List<String> candidates = new ArrayList<>();
+        List<OfficeBean> officeBeanList = new ArrayList<>();
         while(index<bytes.length) {
             int officeBeanLength = deserializeInt(Arrays.copyOfRange(bytes, index, index=index+4));
-            String officeBean = deserializeString(Arrays.copyOfRange(bytes, index, index=index+officeBeanLength));
-            candidates.add(officeBean);
+            OfficeBean officeBean = new OfficeBean();
+            officeBean.deserialize(Arrays.copyOfRange(bytes, index, index=index+officeBeanLength));
+            officeBeanList.add(officeBean);
         }
-
+        this.officeBeanList = officeBeanList;
     }
 
 

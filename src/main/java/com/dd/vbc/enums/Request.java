@@ -2,13 +2,14 @@ package com.dd.vbc.enums;
 
 import com.dd.vbc.mvc.model.Serialization;
 
+import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.dd.vbc.utils.SerialUtil.byteArrayToInt;
 
-public enum Request {
+public enum Request implements Serializable {
     Login,
     Authentication,
     BallotRequest,

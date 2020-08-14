@@ -1,10 +1,12 @@
 package com.dd.vbc.mvc.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class ElectionTransaction extends Serialization {
+public class ElectionTransaction extends Serialization implements Serializable {
 
+    private static final long serialVersionUID = -1464301026352768625L;
     private Voter voter;
     private Election election;
     private Ballot ballot;

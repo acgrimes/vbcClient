@@ -7,7 +7,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 
 /**
  * Listing 2.3 ChannelHandler for the client
@@ -35,14 +34,12 @@ public class VBCMobileClientHandler extends SimpleChannelInboundHandler<ByteBuf>
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, ByteBuf in) {
+
         System.out.println("Client received a Server Response ByteBuf capacity: "+in.capacity());
-//        if(in!=null&&in.hasArray()) {
         byte[] bytes = ByteBufUtil.getBytes(in);
         System.out.println("VBCMobileClientHandler.channelRead0 bytes received: "+bytes.length);
-            provider.handleServerResponse(ByteBufUtil.getBytes(in));
-//        } else {
-//            System.out.println("VBCMobileClientHandler.channelRead0: ByteBuf is null or empty");
-//        }
+        provider.handleServerResponse(ByteBufUtil.getBytes(in));
+
     }
 
     @Override

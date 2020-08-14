@@ -1,10 +1,10 @@
 package com.dd.vbc.provider;
 
-import com.dd.vbc.mvc.model.LoginCredentials;
 import com.dd.vbc.mvc.model.Model;
 import com.dd.vbc.network.ElectionResponse;
 import com.dd.vbc.network.VBCMobileClient;
 import com.dd.vbc.presenter.Presenter;
+import com.dd.vbc.provider.binding.ElectionResponseObservable;
 import io.netty.bootstrap.Bootstrap;
 
 public final class Provider {
@@ -12,14 +12,16 @@ public final class Provider {
     private VBCMobileClient vbcMobileClient;
     private Model model;
     private final Presenter presenter;
+    private ElectionResponseObservable electionResponseObservable;
 
     public Provider(Presenter presenter) {
         this.presenter =  presenter;
-        vbcMobileClient = new VBCMobileClient(this,"10.0.0.13", 61005);
+        vbcMobileClient = new VBCMobileClient(this,"192.168.0.8", 61005);
         model = new Model();
     }
 
-    public void submitLogin(String username, String password) {
+    public void submitLogin(String username, String password, ElectionResponseObservable electionResponseObservable) {
+        this.electionResponseObservable = electionResponseObservable;
         model.submitLogin(username, password);
         Bootstrap bootstrap = vbcMobileClient.start();
 //        try {
@@ -32,8 +34,9 @@ public final class Provider {
 //        }
     }
 
-    public void submitBallotRequest() {
+    public void submitBallotRequest(ElectionResponseObservable electionResponseObservable) {
 
+        this.electionResponseObservable = electionResponseObservable;
         model.submitBallotRequest();
         Bootstrap bootstrap = vbcMobileClient.start();
 
@@ -43,20 +46,7 @@ public final class Provider {
 
         ElectionResponse  electionResponse = model.getElectionResponse(serverResponse);
         System.out.println("Server response type: "+electionResponse.getResponse().name());
-        switch(electionResponse.getResponse()) {
-            case Authentication: {
-                presenter.handleServerResponse(electionResponse.getResponse());
-                break;
-            }
-            case Authorization: {
-
-                break;
-            }
-            case Ballot: {
-                presenter.handleServerResponse(electionResponse.getBallotBeanList());
-                break;
-            }
-        }
+        electionResponseObservable.set(electionResponse);
 
     }
 }
