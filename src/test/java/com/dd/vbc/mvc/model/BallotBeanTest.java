@@ -1,32 +1,16 @@
-package com.dd.vbc.network;
+package com.dd.vbc.mvc.model;
 
 import com.dd.vbc.enums.BallotItemType;
-import com.dd.vbc.enums.Response;
-import com.dd.vbc.mvc.model.BallotBean;
-import com.dd.vbc.mvc.model.OfficeBean;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ElectionResponseTest {
+public class BallotBeanTest {
 
     @Test
-    public void responseEnumOnlyTest() {
-
-        ElectionResponse electionResponse = new ElectionResponse(Response.Authentication, null);
-        byte[] byteArr = electionResponse.serialize();
-        ElectionResponse result = new ElectionResponse();
-        result.deserialize(byteArr);
-
-        System.out.println("Response Enum: "+result.getResponse().name());
-        Assert.assertEquals(electionResponse, result);
-
-    }
-
-    @Test
-    public void responseEnumAndBallotBeanListTest() {
+    public void TestSerializeDeserialize() {
 
         String title = "General Election";
         String descriptiion = "This Election includes Presidential, Federal Senate and Federal House";
@@ -40,18 +24,24 @@ public class ElectionResponseTest {
         OfficeBean houseOffice = new OfficeBean(BallotItemType.OFFICE, "House", "House District 1 Election", hCandidates);
 
         BallotBean presidentBallot = new BallotBean("President", "Office of the President", Arrays.asList(presidentOffice));
+        byte[] bytes = presidentBallot.serialize();
+        presidentBallot.deserialize(bytes);
+        Assert.assertEquals(presidentBallot.getOfficeBeanList().get(0).getCandidates().get(1), pCandidates.get(1));
+        System.out.println("Presidential Ballot: "+presidentBallot.getOfficeBeanList().get(0).getCandidates().get(1));
+
         BallotBean senateBallot = new BallotBean("SENATE", "Senate Races", Arrays.asList(senate1Office, senate2Office));
+        bytes = senateBallot.serialize();
+        senateBallot.deserialize(bytes);
+        Assert.assertEquals(senateBallot.getOfficeBeanList().get(0).getCandidates().get(1), s1Candidates.get(1));
+        System.out.println("Senate Ballot: "+senateBallot.getOfficeBeanList().get(0).getCandidates().get(1));
+
         BallotBean houseBallot = new BallotBean("HOUSE", "House Race", Arrays.asList(houseOffice));
-        List<BallotBean> ballotBeanList = Arrays.asList(presidentBallot, senateBallot, houseBallot);
+        bytes = houseBallot.serialize();
+        houseBallot.deserialize(bytes);
+        Assert.assertEquals(houseBallot.getOfficeBeanList().get(0).getCandidates().get(0), hCandidates.get(0));
+        System.out.println("House Ballot: "+houseBallot.getOfficeBeanList().get(0).getCandidates().get(1));
 
-        ElectionResponse electionResponse = new ElectionResponse(Response.Ballot, ballotBeanList);
 
-        byte[] erByteArray = electionResponse.serialize();
-        ElectionResponse result = new ElectionResponse();
-        result.deserialize(erByteArray);
-
-        System.out.println("Office - Senate2 1st Candidate: "+result.getBallotBeanList().get(1).getOfficeBeanList().get(0));
-        Assert.assertEquals(result, electionResponse);
 
     }
 }
