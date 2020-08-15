@@ -29,8 +29,9 @@ public class BallotView {
         List<GridPane> pages = buildBallotGridPanes(ballotBeanList);
 
         AnchorPane anchor = new AnchorPane();
+        anchor.setStyle("-fx-background-color: BEIGE;");
         Pagination pagination = new Pagination(3, 0);
-        pagination.setStyle("-fx-border-color:red;");
+        pagination.setStyle("-fx-background-color: BEIGE;");
         pagination.setPageFactory((pageIndex) -> { return pages.get(pageIndex);});
         AnchorPane.setTopAnchor(pagination, 10.0);
         AnchorPane.setRightAnchor(pagination, 10.0);
@@ -53,6 +54,7 @@ public class BallotView {
                 gridPane.setHgap(10);
                 gridPane.setVgap(10);
                 gridPane.setPadding(new Insets(25, 25, 25, 25));
+                gridPane.setStyle("-fx-background-color: BEIGE;");
                 VBox headerVBox = new VBox(10);
                 headerVBox.getStyleClass().add("vbox");
                 Label headerLabel = new Label(ballotBean.getDescription());
