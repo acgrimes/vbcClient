@@ -30,13 +30,13 @@ public class BallotPresenter implements Runnable {
             System.out.println("BallotPresenter.run(List<BallotBean>)");
             Scene ballotScene = ballotController.buildScene(ballotBeanList);
 
-            URL cssURL = Presenter.class.getResource("styles.css");
+            URL cssURL = BallotPresenter.class.getResource("styles.css");
             String styleSheet = cssURL.toExternalForm();
             ballotScene.getStylesheets().add(styleSheet);
 
-            primaryStage.setScene(ballotScene);
-            primaryStage.setTitle("Ballot");
-            primaryStage.show();
+            this.primaryStage.setScene(ballotScene);
+            this.primaryStage.setTitle("Ballot");
+            this.primaryStage.show();
 
         } catch(Exception ex) {
             ex.printStackTrace();
