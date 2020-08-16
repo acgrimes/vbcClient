@@ -2,6 +2,9 @@ package com.dd.vbc.mvc.view;
 
 import com.dd.vbc.mvc.controller.BallotController;
 import com.dd.vbc.mvc.model.BallotBean;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,7 +80,7 @@ public class BallotView {
                                 rb.setToggleGroup(rbToggleGroup);
                                 rb.setSelected(false);
                                 rb.setOnAction(eh -> {
-                                    ballotController.handleRadioButtonAction(eh);
+                                    ballotController.handleRadioButtonAction(officeBean.getBallotItemType(), officeBean.getOffice(), candidate);
                                 });
                                 return rb;
                             }).collect(Collectors.toList());
